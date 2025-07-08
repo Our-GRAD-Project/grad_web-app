@@ -7,6 +7,7 @@ const Login = () => {
     email: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,54 +30,52 @@ const Login = () => {
   };
 
   return (
-    <div className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden">
-      <div className="layout-container flex h-full grow flex-col">
-        <div className="px-4 sm:px-10 lg:px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col w-full max-w-[512px] py-5 flex-1">
-            <h2 className="text-[#141316] text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Welcome back</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label className="flex flex-col min-w-40 flex-1">
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#141316] focus:outline-0 focus:ring-0 border-none bg-[#f2f1f3] focus:border-none h-14 placeholder:text-[#716b80] p-4 text-base font-normal leading-normal"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </label>
-              </div>
-              <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label className="flex flex-col min-w-40 flex-1">
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#141316] focus:outline-0 focus:ring-0 border-none bg-[#f2f1f3] focus:border-none h-14 placeholder:text-[#716b80] p-4 text-base font-normal leading-normal"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                </label>
-              </div>
-              <p className="text-[#716b80] text-sm font-normal leading-normal pb-3 pt-1 px-4 underline">
-                <Link to="/forgot-password" className="text-[#716b80] underline">Forgot password?</Link>
-              </p>
-              <div className="flex px-4 py-3">
-                <button
-                  type="submit"
-                  className="flex min-w-[84px] max-w-[455px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 flex-1 bg-[#c9bce5] text-[#141316] text-sm font-bold leading-normal tracking-[0.015em]"
-                >
-                  <span className="truncate">Log in</span>
-                </button>
-              </div>
-            </form>
-            <p className="text-[#716b80] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline">
-              Don't have an account? <Link to="/signup" className="text-[#716b80] underline">Sign up</Link>
-            </p>
-          </div>
+    <div className="flex flex-col min-h-screen justify-center items-center bg-white px-4">
+      <h2 className="text-[#141316] text-[28px] font-bold text-center pb-3">Welcome back</h2>
+
+      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+
+        <label className="block text-[#373737] text-base font-medium">Email</label>
+        <div className="flex items-center border h-12 px-3 hover:shadow-lg focus-within:shadow-lg transition rounded">
+          <span className="mr-2">📧</span>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            className="flex-1 outline-none"
+            value={formData.email}
+            onChange={handleChange}
+          />
         </div>
-      </div>
+
+        <label className="block text-[#373737] text-base font-medium">Password</label>
+        <div className="flex items-center border h-12 px-3 hover:shadow-lg focus-within:shadow-lg transition rounded">
+          <span className="mr-2">🔒</span>
+          <input
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            className="flex-1 outline-none"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <button type="button" onClick={() => setShowPassword(!showPassword)} className="ml-2">
+            {showPassword ? '🙈' : '👁️'}
+          </button>
+        </div>
+
+        <p className="text-[#716b80] text-sm text-center pt-1 hover:underline">
+          <Link to="/forgot-password">Forgot password?</Link>
+        </p>
+
+        <button type="submit" className="w-full bg-[#c9bce5] text-[#141316] font-bold py-3 hover:shadow-lg transition">
+          Log in
+        </button>
+      </form>
+
+      <p className="text-sm text-center pt-3">
+        Don't have an account? <Link to="/signup" className="text-[#c9bce5] font-bold hover:underline">Sign up</Link>
+      </p>
     </div>
   );
 };
