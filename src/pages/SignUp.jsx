@@ -20,17 +20,26 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/auth/signup', {
+      await api.post('/auth/signup', {
         userName: formData.fullName,
         email: formData.email,
         password: formData.password,
       });
-      console.log('Sign Up Success:', response.data);
+
       alert('Sign Up Successful!');
-      navigate('/login');
+
+      const loginResponse = await api.post('/auth/signin', {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      localStorage.setItem('token', loginResponse.data.token);
+      
+      navigate('/');
+      window.scrollTo(0, 0);  
     } catch (error) {
-      console.error('Sign Up Error:', error);
-      alert(error.response?.data?.message || 'Sign Up Failed!');
+      console.error('Sign Up/Login Error:', error);
+      alert(error.response?.data?.message || 'Sign Up/Login Failed!');
     }
   };
 
@@ -100,18 +109,7 @@ const SignUp = () => {
         <button type="submit" className="w-full bg-[#c9bce5] text-[#141316] font-bold py-3 hover:shadow-lg transition">Sign Up</button>
       </form>
 
-      <p className="text-[#716b80] text-sm text-center py-3">Or continue with</p>
-
-      <div className="flex justify-center gap-6 mb-6">
-        <button onClick={() => window.location.href = 'https://graduationprojectapi-production-e29d.up.railway.app/api/v1/auth/google'} className="w-16 h-16 bg-[#f2f1f3] flex items-center justify-center hover:shadow-lg transition rounded">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" className="w-8 h-8" />
-        </button>
-        <button onClick={() => window.location.href = 'https://graduationprojectapi-production-e29d.up.railway.app/api/v1/auth/facebook'} className="w-16 h-16 bg-[#f2f1f3] flex items-center justify-center hover:shadow-lg transition rounded">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook" className="w-8 h-8" />
-        </button>
-      </div>
-
-      <p className="text-sm text-center">
+      <p className="text-sm text-center pt-3">
         Already have an account? <Link to="/login" className="text-[#c9bce5] font-bold hover:underline">Log in</Link>
       </p>
     </div>

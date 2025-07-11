@@ -16,13 +16,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await api.post('/auth/signin', formData);
       console.log('Login Success:', response.data);
       localStorage.setItem('token', response.data.token);
       alert('Login Successful!');
       navigate('/');
+      window.scrollTo(0, 0);  
     } catch (error) {
       console.error('Login Error:', error);
       alert(error.response?.data?.message || 'Login Failed!');
@@ -34,7 +34,6 @@ const Login = () => {
       <h2 className="text-[#141316] text-[28px] font-bold text-center pb-3">Welcome back</h2>
 
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-
         <label className="block text-[#373737] text-base font-medium">Email</label>
         <div className="flex items-center border h-12 px-3 hover:shadow-lg focus-within:shadow-lg transition rounded">
           <span className="mr-2">📧</span>
